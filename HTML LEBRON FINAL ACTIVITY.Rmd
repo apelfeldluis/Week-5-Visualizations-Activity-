@@ -1,0 +1,36 @@
+
+---
+title: "Exploratory Data Analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(readxl)
+```
+
+```{r load-data, include=FALSE}
+data <- read_excel('lebron (2).xlsx', sheet = 'Sheet1', skip = 2)
+data$`Rec. MP` <- as.numeric(data$`Rec. MP`)
+data$Age <- as.numeric(data$Age)
+```
+
+This histogram shows the distribution of the recorded minutes played by the players. The x-axis represents the recorded minutes, and the y-axis shows the frequency of players falling into each bin. The KDE (Kernel Density Estimate) line provides a smoothed estimation of the distribution.
+
+```{r histogram, echo=FALSE}
+ggplot(data, aes(x=`Rec. MP`)) +
+  geom_histogram(binwidth=2, fill="blue", color="black", alpha=0.7) +
+  labs(title="Histogram of Recorded Minutes Played", x="Recorded Minutes Played", y="Frequency") +
+  theme_minimal()
+```
+
+This scatter plot visualizes the relationship between players' salaries and their WORP (Wins Over Replacement Player). Each point represents a player, with the color indicating the player's age. The plot helps to identify if there is any correlation between salary and performance.
+
+```{r scatter, echo=FALSE}
+ggplot(data, aes(x=Salary, y=WORP, color=Age)) +
+  geom_point(size=3, alpha=0.7) +
+  labs(title="Scatter Plot of Salary vs WORP", x="Salary", y="WORP") +
+  theme_minimal() +
+  scale_color_viridis_c()
+```
